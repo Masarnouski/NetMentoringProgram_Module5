@@ -21,8 +21,8 @@ namespace NetMentoring_Module5
         [ConfigurationProperty("defaultInputPath")]
         public DefaultInputFilePathElement DefaultOutputFilePath { get { return (DefaultInputFilePathElement)this["defaultInputPath"]; } }
 
-        [ConfigurationProperty("regularExpression")]
-        public RegularExpressionElement RegularExpression { get { return (RegularExpressionElement)this["regularExpression"]; } }
+        [ConfigurationProperty("rules")]
+        public RulesElement Rules { get { return (RulesElement)this["rules"]; } }
     }
 
     class OutputFilePathCollection : ConfigurationElementCollection
@@ -48,28 +48,23 @@ namespace NetMentoring_Module5
     {
         [ConfigurationProperty("value")]
         public string Value { get { return (string)this["value"]; } }
-
-        [ConfigurationProperty("isCounterEnabled")]
-        public bool isCounterEnabled { get { return (bool)this["isCounterEnabled"]; } }
-
-        [ConfigurationProperty("isDateEnabled")]
-        public bool isDateEnabled { get { return (bool)this["isDateEnabled"]; } }
     }
+
     class DefaultInputFilePathElement : ConfigurationElement
     {
         [ConfigurationProperty("value")]
         public string Value { get { return (string)this["value"]; } }
+    }
+    class RulesElement : ConfigurationElement
+    {
+        [ConfigurationProperty("regularExpression")]
+        public string RegularExpression { get { return (string)this["regularExpression"]; } }
 
         [ConfigurationProperty("isCounterEnabled")]
-        public bool isCounterEnabled { get { return (bool)this["isCounterEnabled"]; } }
+        public bool IsCounterEnabled { get { return (bool)this["isCounterEnabled"]; } }
 
         [ConfigurationProperty("isDateEnabled")]
-        public bool isDateEnabled { get { return (bool)this["isDateEnabled"]; } }
-    }
-    class RegularExpressionElement : ConfigurationElement
-    {
-        [ConfigurationProperty("value")]
-        public string Value { get { return (string)this["value"]; } }
+        public bool IsDateEnabled { get { return (bool)this["isDateEnabled"]; } }
 
     }
 }
