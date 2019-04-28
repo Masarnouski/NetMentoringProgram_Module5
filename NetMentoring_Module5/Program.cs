@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Threading;
 using System.Configuration;
-using System.Text.RegularExpressions;
 using NetMentoring_Module5.Configuration;
 using System.Globalization;
 using NetMentoring_Module5.EventArgs;
+using resources = NetMentoring_Module5.Resources.Resource;
 
 namespace NetMentoring_Module5
 {
@@ -18,27 +14,41 @@ namespace NetMentoring_Module5
         private static List<DirectoryElement> _directories;
         private static List<RuleElement> _rules;
         private static FileDistributorService _distributor;
-
+        private static ConsoleKeyInfo input;
         static void Main(string[] args)
         {
-            FileSystemSettings config = (FileSystemSettings)ConfigurationManager.GetSection("fileSystemSettings");
+            
+              
+                FileSystemSettings config = (FileSystemSettings)ConfigurationManager.GetSection("fileSystemSettings");
 
-            if (config != null)
+                if (config != null)
+                {
+                    ReadConfig(config);
+                }
+
+                _distributor = new FileDistributorService(_rules, new DirectoryInfo(config.Rules.DefaultDirectory));
+                var watcherService = new FileSystemWatcherService(_directories);
+
+                watcherService.FileCreatedEvent += OnFileCreated;
+
+            do
             {
-                ReadConfig(config);
+                input = Console.ReadKey(true);
             }
 
-            _distributor = new FileDistributorService(_rules, new DirectoryInfo(config.Rules.DefaultDirectory));
-            var watcherService = new FileSystemWatcherService(_directories);
-           
-            watcherService.FileCreatedEvent += OnFileCreated;
-            while (Console.ReadKey(true).Key != ConsoleKey.Escape) ;
+            
+
+            while ((!!((input.Modifiers == ConsoleModifiers.Control) && (input.Key == ConsoleKey.D)) ||
+                  !((input.Modifiers == ConsoleModifiers.Control) && (input.Key == ConsoleKey.B))));
+
+
+
         }
 
         private static void OnFileCreated(object sender, FileCreatedEventArgs args)
         {
-            _distributor.MoveFile(args.Name, args.FilePath);
             Console.WriteLine(resources.FileFounded, args.Name);
+            _distributor.MoveFile(args.Name, args.FilePath);
         }
 
         private static void ReadConfig(FileSystemSettings config)

@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using resources = NetMentoring_Module5.Resources.Resource;
 
 namespace NetMentoring_Module5
 {
@@ -15,7 +14,7 @@ namespace NetMentoring_Module5
         private List<RuleElement> _rules;
         private DirectoryInfo _defaultDir;
         private static object _locker = new object();
-        private int counter = 0;
+        private int counter = 1;
 
         public FileDistributorService(List<RuleElement> rules, DirectoryInfo defaultDir)
         {
@@ -37,6 +36,7 @@ namespace NetMentoring_Module5
                     return;
                 }
             }
+            Console.WriteLine(resources.NotMatchRegExpr, fileName);
             CopyFile(sourcePath, _defaultDir + $"/{fileName}");
 
         }
@@ -68,6 +68,7 @@ namespace NetMentoring_Module5
             lock (_locker)
             {
                 File.Move(inputPath, outputPath);
+                Console.WriteLine(resources.FileMovedToFolder, outputPath);
             }
         }
     }
