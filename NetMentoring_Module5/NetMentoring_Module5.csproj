@@ -43,12 +43,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilesConfigurationSection.cs" />
+    <Compile Include="Configuration\DirectoryElement.cs" />
+    <Compile Include="Configuration\DirectoryElementCollection.cs" />
+    <Compile Include="Configuration\FileSystemSettings.cs" />
+    <Compile Include="Configuration\RuleElement.cs" />
+    <Compile Include="Configuration\RuleElementCollection.cs" />
+    <Compile Include="EventArgs\FileCreatedEventArgs.cs" />
+    <Compile Include="FileDistributorService.cs" />
+    <Compile Include="FileSystemWatcherService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
