@@ -17,32 +17,23 @@ namespace NetMentoring_Module5
         private static ConsoleKeyInfo input;
         static void Main(string[] args)
         {
-            
-              
-                FileSystemSettings config = (FileSystemSettings)ConfigurationManager.GetSection("fileSystemSettings");
+            FileSystemSettings config = (FileSystemSettings)ConfigurationManager.GetSection("fileSystemSettings");
 
-                if (config != null)
-                {
-                    ReadConfig(config);
-                }
+            if (config != null)
+            {
+                ReadConfig(config);
+            }
 
-                _distributor = new FileDistributorService(_rules, new DirectoryInfo(config.Rules.DefaultDirectory));
-                var watcherService = new FileSystemWatcherService(_directories);
+            _distributor = new FileDistributorService(_rules, new DirectoryInfo(config.Rules.DefaultDirectory));
+            var watcherService = new FileSystemWatcherService(_directories);
 
-                watcherService.FileCreatedEvent += OnFileCreated;
+            watcherService.FileCreatedEvent += OnFileCreated;
 
             do
             {
                 input = Console.ReadKey(true);
             }
-
-            
-
-            while ((!!((input.Modifiers == ConsoleModifiers.Control) && (input.Key == ConsoleKey.D)) ||
-                  !((input.Modifiers == ConsoleModifiers.Control) && (input.Key == ConsoleKey.B))));
-
-
-
+            while (!((input.Modifiers == ConsoleModifiers.Control) && (input.Key == ConsoleKey.D)));
         }
 
         private static void OnFileCreated(object sender, FileCreatedEventArgs args)
